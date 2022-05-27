@@ -1,2 +1,1 @@
-# online_store
-The user can purchase items by placing an order
+# Hi, my name is Khaydarov Roman
