@@ -1,0 +1,23 @@
+  [1m[35m (1831.5ms)[0m  [1m[35mCREATE DATABASE "items_api_development" ENCODING = 'unicode'[0m
+  [1m[35m (1284.3ms)[0m  [1m[35mCREATE DATABASE "items_api_test" ENCODING = 'unicode'[0m
+  [1m[35m (293.1ms)[0m  [1m[35mDROP DATABASE IF EXISTS "items_api_development"[0m
+  [1m[35m (265.4ms)[0m  [1m[35mDROP DATABASE IF EXISTS "items_api_test"[0m
+  [1m[35m (849.9ms)[0m  [1m[35mCREATE DATABASE "items_api_development" ENCODING = 'unicode'[0m
+  [1m[35m (1129.0ms)[0m  [1m[35mCREATE DATABASE "items_api_test" ENCODING = 'unicode'[0m
+  [1m[35m (235.9ms)[0m  [1m[35mDROP DATABASE IF EXISTS "items_api_development"[0m
+  [1m[35m (248.0ms)[0m  [1m[35mDROP DATABASE IF EXISTS "items_api_test"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP DATABASE IF EXISTS "items_api_development"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP DATABASE IF EXISTS "items_api_test"[0m
+  [1m[35m (956.5ms)[0m  [1m[35mCREATE DATABASE "items_api_development" ENCODING = 'unicode'[0m
+  [1m[35m (954.0ms)[0m  [1m[35mCREATE DATABASE "items_api_test" ENCODING = 'unicode'[0m
+  [1m[35m (227.6ms)[0m  [1m[35mDROP DATABASE IF EXISTS "items_api_development"[0m
+  [1m[35m (441.6ms)[0m  [1m[35mDROP DATABASE IF EXISTS "items_api_test"[0m
+  [1m[35m (870.7ms)[0m  [1m[35mCREATE DATABASE "online_store_development" ENCODING = 'unicode'[0m
+  [1m[35m (1279.5ms)[0m  [1m[35mCREATE DATABASE "online_store_test" ENCODING = 'unicode'[0m
+Started GET "/" for ::1 at 2022-05-27 20:25:09 +0500
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /home/roman/.rvm/gems/ruby-2.7.1/gems/railties-6.1.6/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /home/roman/.rvm/gems/ruby-2.7.1/gems/railties-6.1.6/lib/rails/templates/rails/welcome/index.html.erb (Duration: 7.5ms | Allocations: 399)
+Completed 200 OK in 21ms (Views: 12.2ms | ActiveRecord: 0.0ms | Allocations: 3530)
+
+
