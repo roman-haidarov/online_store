@@ -45,8 +45,8 @@ RSpec.describe UsersController, type: :request do
         expect(last_response.status).to eq 200
       end
 
-      it "email does not match updated email" do
-        expect(json['email'] != user.email).to eq true
+      it "email is write" do
+        expect(json['email']).to eq "test@mail.ru"
       end
     end
 
