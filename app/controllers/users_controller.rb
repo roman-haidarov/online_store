@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
-  def show
-    user = User.find_by(id: params[:id])
+  before_action :set_user, only: [:show, :update, :destroy]
 
-    render json: user, status: 200
+  def show
+    render json: @user, status: 200
   end
 
   def create
@@ -17,19 +17,15 @@ class UsersController < ApplicationController
   end
 
   def update
-    user = User.find_by(id: params[:id])
-
-    if user.update(user_params)     
-      render json: user, status: 200
+    if @user.update(user_params)     
+      render json: @user, status: 200
     else
       render json: { message: "user not updated" }, status: 401
     end
   end
 
   def destroy
-    user = User.find_by(id: params[:id])
-
-    if user.destroy     
+    if @user.destroy     
       render json: { message: "no content" }, status: 204
     else
       render json: { message: "user not deleted" }, status: 401
@@ -40,5 +36,9 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:email, :password)
+  end
+
+  def set_user
+    @user = User.find_by(id: params[:id])
   end
 end
