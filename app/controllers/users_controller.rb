@@ -12,7 +12,7 @@ class UsersController < ApplicationController
       Basket.create(user_id: user.id)
       render json: user, status: 201
     else
-      render json: { message: "user not created" }, status: 400
+      render json: { errors: user.errors.full_messages }, status: 400
     end
   end
 
@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)     
       render json: @user, status: 200
     else
-      render json: { message: "user not updated" }, status: 401
+      render json: { errors: @user.errors.full_messages }, status: 400
     end
   end
 
@@ -28,7 +28,7 @@ class UsersController < ApplicationController
     if @user.destroy     
       render json: { message: "no content" }, status: 204
     else
-      render json: { message: "user not deleted" }, status: 401
+      render json: { message: "user not deleted" }, status: 400
     end
   end
 
