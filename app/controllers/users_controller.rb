@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)     
       render json: @user, status: 200
     else
-      render json: { errors: user.errors.full_message }, status: 400
+      render json: { errors: @user.errors.full_message }, status: 400
     end
   end
 
