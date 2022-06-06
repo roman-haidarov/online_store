@@ -4,4 +4,5 @@ class User < ApplicationRecord
          :validatable
 
   has_one :basket, dependent: :destroy
+  has_many :items, dependent: :destroy
 end
