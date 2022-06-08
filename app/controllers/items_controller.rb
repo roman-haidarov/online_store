@@ -1,23 +1,29 @@
 class ItemsController < ApplicationController
-  before_action :set_item, only: [:show, :update, :destroy]
-  before_action :set_user, only: [:create]
+  before_action :set_item, only: [:show, :update, :destroy, :add_to_basket]
 
   def show
     render json: @item, status: 200
   end
 
   def create
-    @item = @user.items.new(item_params)
+    item = Item.new(item_params)
     
-    if @item.save
-      render json: @item, status: 201
+    if item.save
+      render json: item, status: 201
     else
-      render json: { errors: @item.errors.full_message }, status: 400
+      render json: { errors: item.errors.full_message }, status: 400
     end
   end
 
   def add_to_basket
-    @item = @user.items.new(item_params)
+    current_user = User.find(params[:user_id])
+    basket_item = BasketItem.new(basket_id: current_user.id, item_id: @item.id)
+
+    if basket_item.save
+      render json: { message: "item added to basekt" }, status: 200
+    else
+      render json: { errors: basket_item.errors.full_message }, status: 400
+    end
   end
 
   def update
@@ -42,17 +48,7 @@ class ItemsController < ApplicationController
     params.require(:item).permit(:name, :description)
   end
 
-  def set_basket
-    set_item
-    @basket = @item.
-  end
-
   def set_item
-    set_user
-    @item = @user.items.find(params[:id])
-  end
-
-  def set_user
-    @user = User.find(params[:user_id])
+    @item = Item.find(params[:id])
   end
 end
