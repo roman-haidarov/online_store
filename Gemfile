@@ -6,6 +6,7 @@ ruby '2.7.1'
 gem 'rails', '~> 6.1.4'
 gem 'pg'
 gem 'devise'
+gem 'jwt'
 
 gem 'puma', '~> 3.11'
 gem 'sass-rails', '~> 5.0'

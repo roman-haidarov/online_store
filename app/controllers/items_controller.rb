@@ -20,7 +20,7 @@ class ItemsController < ApplicationController
     basket_item = BasketItem.new(basket_id: current_user.id, item_id: @item.id)
 
     if basket_item.save
-      render json: { message: "item added to basekt" }, status: 200
+      render json: { message: "item added to basekt" }, status: 201
     else
       render json: { errors: basket_item.errors.full_message }, status: 400
     end
