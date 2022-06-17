@@ -17,22 +17,6 @@ RSpec.describe OrdersController, type: :request do
     end
   end
 
-  describe "POST /create" do
-    let!(:items) { create_list :item, 2 }
-
-    before do
-      post "/orders", { item_ids: [items.first.id, items.second.id] }
-    end
-
-    it "return status ok" do
-      expect(last_response.status).to eq 201
-    end
-
-    it "return expected data" do
-      expect(json['order_items'].pluck('id')).to eq items.pluck(:id)
-    end
-  end
-
   describe "DELETE /destroy" do
     let!(:order) { create :order }
 
