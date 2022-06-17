@@ -2,20 +2,36 @@ require 'rails_helper'
 
 RSpec.describe ItemsController, type: :request do
   describe "POST /create" do
-    before do
-      post "/items", { item: { name: "t_short", description: "very nice t short" } }
+    context "when params is valid" do
+      before do
+        post "/items", { item: { name: "t_short", description: "very nice t short" } }
+      end
+
+      it "status created" do
+        expect(last_response.status).to eq 201
+      end
+
+      it "expected name" do
+        expect(json['name']).to eq "t_short"
+      end
+
+      it "expected description" do
+        expect(json['description']).to eq "very nice t short"
+      end
     end
 
-    it "status created" do
-      expect(last_response.status).to eq 201
-    end
+    context "when params invalid" do
+      before do
+        post "/items", { item: { name: "t_short" } }
+      end
 
-    it "expected name" do
-      expect(json['name']).to eq "t_short"
-    end
+      it "status bad request" do
+        expect(last_response.status).to eq 400
+      end
 
-    it "expected description" do
-      expect(json['description']).to eq "very nice t short"
+      it "return error message" do
+        expect(json['errors']).to eq ["Description can't be blank"]
+      end
     end
   end
 
@@ -23,19 +39,37 @@ RSpec.describe ItemsController, type: :request do
     let!(:item) { create :item }
 
     describe "POST /add_to_basket" do
-      let!(:current_user) { create :user }
-      let!(:basket) { create :basket, user_id: current_user.id }
-
-      before do
-        post "/items/#{item.id}/add_to_basket?user_id=#{current_user.id}", { bsket_item: { basket_id: basket.id, item_id: item.id } }
+      context "when params is valid" do
+        let!(:current_user) { create :user }
+        let!(:basket) { create :basket, user_id: current_user.id }
+  
+        before do
+          post "/items/#{item.id}/add_to_basket?user_id=#{current_user.id}", { bsket_item: { basket_id: basket.id, item_id: item.id } }
+        end
+  
+        it "status created" do
+          expect(last_response.status).to eq 201
+        end
+  
+        it "correct message" do
+          expect(json['message']).to eq "item added to basekt"
+        end
       end
 
-      it "status created" do
-        expect(last_response.status).to eq 201
-      end
-
-      it "correct message" do
-        expect(json['message']).to eq "item added to basekt"
+      context "when params invalid" do
+        let!(:current_user) { create :user }
+  
+        before do
+          post "/items/#{item.id}/add_to_basket?user_id=#{current_user.id}"
+        end
+  
+        it "status created" do
+          expect(last_response.status).to eq 400
+        end
+  
+        it "return errors" do
+          expect(json['errors']).to eq ["Basket must exist"]
+        end
       end
     end
 

@@ -11,18 +11,18 @@ class ItemsController < ApplicationController
     if item.save
       render json: item, status: 201
     else
-      render json: { errors: item.errors.full_message }, status: 400
+      render json: { errors: item.errors.full_messages }, status: 400
     end
   end
 
   def add_to_basket
     current_user = User.find(params[:user_id])
-    basket_item = BasketItem.new(basket_id: current_user.id, item_id: @item.id)
-
+    basket_item = BasketItem.new(basket: current_user.basket, item: @item)
+    
     if basket_item.save
       render json: { message: "item added to basekt" }, status: 201
     else
-      render json: { errors: basket_item.errors.full_message }, status: 400
+      render json: { errors: basket_item.errors.full_messages }, status: 400
     end
   end
 
@@ -30,7 +30,7 @@ class ItemsController < ApplicationController
     if @item.update(item_params)     
       render json: @item, status: 200
     else
-      render json: { errors: @item.errors.full_message }, status: 400
+      render json: { errors: @item.errors.full_messages }, status: 400
     end
   end
 
