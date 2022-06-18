@@ -1,4 +1,6 @@
 class OrdersController < ApplicationController
+  before_action :authenticate!
+
   def index
     render json: Order.all, status: 200
   end

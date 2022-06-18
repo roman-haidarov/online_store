@@ -1,11 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe OrdersController, type: :request do
+  let!(:user) { create :user }
+  let!(:token) { TokensCreator.new(user).call }
+
   describe "GET /index" do
     let!(:orders) { create_list :order, 3 }
 
     before do
-      get "/orders"
+      get "/orders", {}, "HTTP_AUTHORIZATION" => "Bearer #{token}"
     end
 
     it "return status ok" do
@@ -21,7 +24,7 @@ RSpec.describe OrdersController, type: :request do
     let!(:order) { create :order }
 
     before do
-      delete "/orders/#{order.id}"
+      delete "/orders/#{order.id}", {}, "HTTP_AUTHORIZATION" => "Bearer #{token}"
     end
 
     it "return status no content" do

@@ -1,10 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe ItemsController, type: :request do
+  let!(:user) { create :user }
+  let!(:basket) { create :basket, user: user }
+  let!(:token) { TokensCreator.new(user).call }
+
   describe "POST /create" do
     context "when params is valid" do
       before do
-        post "/items", { item: { name: "t_short", description: "very nice t short" } }
+        post "/items",
+          { item: { name: "t_short", description: "very nice t short" } },
+          "HTTP_AUTHORIZATION" => "Bearer #{token}"
       end
 
       it "status created" do
@@ -22,7 +28,8 @@ RSpec.describe ItemsController, type: :request do
 
     context "when params invalid" do
       before do
-        post "/items", { item: { name: "t_short" } }
+        post "/items",
+          { item: { name: "t_short" } }, "HTTP_AUTHORIZATION" => "Bearer #{token}"
       end
 
       it "status bad request" do
@@ -40,11 +47,10 @@ RSpec.describe ItemsController, type: :request do
 
     describe "POST /add_to_basket" do
       context "when params is valid" do
-        let!(:current_user) { create :user }
-        let!(:basket) { create :basket, user_id: current_user.id }
-  
         before do
-          post "/items/#{item.id}/add_to_basket?user_id=#{current_user.id}", { bsket_item: { basket_id: basket.id, item_id: item.id } }
+          post "/items/#{item.id}/add_to_basket",
+            { bsket_item: { basket_id: basket.id, item_id: item.id } },
+            "HTTP_AUTHORIZATION" => "Bearer #{token}"
         end
   
         it "status created" do
@@ -57,10 +63,10 @@ RSpec.describe ItemsController, type: :request do
       end
 
       context "when params invalid" do
-        let!(:current_user) { create :user }
-  
+        let!(:basket) {}
+
         before do
-          post "/items/#{item.id}/add_to_basket?user_id=#{current_user.id}"
+          post "/items/#{item.id}/add_to_basket", {}, "HTTP_AUTHORIZATION" => "Bearer #{token}"
         end
   
         it "status created" do
@@ -70,6 +76,22 @@ RSpec.describe ItemsController, type: :request do
         it "return errors" do
           expect(json['errors']).to eq ["Basket must exist"]
         end
+      end
+    end
+
+    describe "GET /index" do
+      let!(:items) { create_list :item, 3 }
+
+      before do
+        get "/items"
+      end
+
+      it "status ok" do
+        expect(last_response.status).to eq 200
+      end
+
+      it "return expected ids" do
+        expect(json.pluck('id')).to eq Item.all.ids
       end
     end
 
@@ -93,7 +115,9 @@ RSpec.describe ItemsController, type: :request do
 
     describe "PATCH /update" do
       before do
-        patch "/items/#{item.id}", { item: { name: "t_short", description: "very nice t short" } }
+        patch "/items/#{item.id}",
+          { item: { name: "t_short", description: "very nice t short" } },
+          "HTTP_AUTHORIZATION" => "Bearer #{token}"
       end
 
       it "status ok" do
@@ -111,7 +135,7 @@ RSpec.describe ItemsController, type: :request do
 
     describe "DELETE /destroy" do
       it "user delete" do
-        delete "/items/#{item.id}"
+        delete "/items/#{item.id}", {}, "HTTP_AUTHORIZATION" => "Bearer #{token}"
 
         expect(last_response.status).to eq 204
       end

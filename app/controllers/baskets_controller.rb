@@ -1,5 +1,6 @@
 class BasketsController < ApplicationController
   before_action :set_basket, only: [:show, :create_order, :delete_from_basket]
+  before_action :authenticate!
 
   def show
     render json: @basket.items, status: 200

@@ -3509,3 +3509,189 @@ FOREIGN KEY ("user_id")
   [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
   [1m[36mToken Create (2.3ms)[0m  [1m[32mINSERT INTO "tokens" ("user_id", "token", "expired_in", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["user_id", 1], ["token", "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6Im9sZEBnbWFpbC5jb20iLCJzYWx0IjoiMWEyYUFhMjExWiIsImV4cGlyZWRfaW4iOiIyMDIyLTA2LTEwIDA2OjU3OjAyIFVUQyJ9.4HnFv6gB-EwQw7hFzqsQ4kDEOd3rxYyhh2mDXZVve9o"], ["expired_in", "2022-06-10 06:57:02.636417"], ["created_at", "2022-06-10 06:37:04.312972"], ["updated_at", "2022-06-10 06:37:04.312972"]]
   [1m[36mTRANSACTION (30.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (96.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mToken Create (72.2ms)[0m  [1m[32mINSERT INTO "tokens" ("user_id", "token", "expired_in", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["user_id", 1], ["token", "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6Im9sZEBnbWFpbC5jb20iLCJzYWx0IjoiQTFaQVphMnpBQSIsImV4cGlyZWRfaW4iOiIyMDIyLTA2LTE4IDE1OjE0OjAyIFVUQyJ9.r5Ci8yCLLmaMK8lqSLxTaJkmsxcj6SAkwpknjkNTn-A"], ["expired_in", "2022-06-18 15:14:02.190192"], ["created_at", "2022-06-18 14:54:33.064559"], ["updated_at", "2022-06-18 14:54:33.064559"]]
+  [1m[36mTRANSACTION (326.9ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users/1" for 127.0.0.1 at 2022-06-18 20:15:07 +0500
+  [1m[35m (77.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+NameError (uninitialized constant ApplicationController::AccessHandler):
+  
+app/controllers/application_controller.rb:2:in `<class:ApplicationController>'
+app/controllers/application_controller.rb:1:in `<main>'
+app/controllers/users_controller.rb:1:in `<main>'
+Started GET "/users/1" for 127.0.0.1 at 2022-06-18 20:16:13 +0500
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by UsersController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:43:in `set_user'
+Completed 500 Internal Server Error in 8080ms (ActiveRecord: 4.0ms | Allocations: 17953)
+
+
+  
+NameError (undefined local variable or method `render_unauthorize' for #<UsersController:0x00000000009e48>
+Did you mean?  render_to_string):
+  
+app/controllers/concerns/access_handler.rb:15:in `check_bearer'
+app/controllers/concerns/access_handler.rb:9:in `authenticate!'
+Started GET "/users/1" for 127.0.0.1 at 2022-06-18 20:18:12 +0500
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by UsersController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:43:in `set_user'
+Filter chain halted as :authenticate! rendered or redirected
+Completed 401 Unauthorized in 2590ms (Views: 0.6ms | ActiveRecord: 3.5ms | Allocations: 15205)
+
+
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+Started GET "/sessions" for 127.0.0.1 at 2022-06-18 20:47:39 +0500
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActionController::RoutingError (No route matches [GET] "/sessions"):
+  
+Started POST "/sessions" for 127.0.0.1 at 2022-06-18 20:48:03 +0500
+Processing by SessionsController#create as */*
+  Parameters: {"login_data"=>{"email"=>"old@gmail.com", "password"=>"[FILTERED]"}, "session"=>{"login_data"=>{"email"=>"old@gmail.com", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "old@gmail.com"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:3:in `create'
+Completed 400 Bad Request in 33ms (Views: 0.2ms | ActiveRecord: 4.6ms | Allocations: 8429)
+
+
+Started POST "/sessions" for 127.0.0.1 at 2022-06-18 20:48:04 +0500
+Processing by SessionsController#create as */*
+  Parameters: {"login_data"=>{"email"=>"old@gmail.com", "password"=>"[FILTERED]"}, "session"=>{"login_data"=>{"email"=>"old@gmail.com", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "old@gmail.com"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:3:in `create'
+Completed 400 Bad Request in 2ms (Views: 0.2ms | ActiveRecord: 0.3ms | Allocations: 698)
+
+
+Started GET "/users/1" for 127.0.0.1 at 2022-06-18 20:48:07 +0500
+Processing by UsersController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:43:in `set_user'
+Filter chain halted as :authenticate! rendered or redirected
+Completed 401 Unauthorized in 3ms (Views: 0.2ms | ActiveRecord: 0.2ms | Allocations: 833)
+
+
+Started POST "/users" for 127.0.0.1 at 2022-06-18 20:48:15 +0500
+Processing by UsersController#create as */*
+  Parameters: {"user"=>{"email"=>"old@gmail.com", "password"=>"[FILTERED]"}}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "old@gmail.com"], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/users_controller.rb:12:in `create'
+Completed 400 Bad Request in 341ms (Views: 0.2ms | ActiveRecord: 1.0ms | Allocations: 4985)
+
+
+Started POST "/sessions" for 127.0.0.1 at 2022-06-18 20:48:27 +0500
+Processing by SessionsController#create as */*
+  Parameters: {"login_data"=>{"email"=>"old@gmail.com", "password"=>"[FILTERED]"}, "session"=>{"login_data"=>{"email"=>"old@gmail.com", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "old@gmail.com"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:3:in `create'
+Completed 400 Bad Request in 4ms (Views: 0.1ms | ActiveRecord: 0.9ms | Allocations: 681)
+
+
+Started POST "/sessions" for 127.0.0.1 at 2022-06-18 20:48:53 +0500
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by SessionsController#create as */*
+  Parameters: {"login_data"=>{"email"=>"old@gmail.com", "password"=>"[FILTERED]"}, "session"=>{"login_data"=>{"email"=>"old@gmail.com", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "old@gmail.com"], ["LIMIT", 1]]
+  ↳ (pry):1:in `create'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "old@gmail.com"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:6:in `create'
+Completed 400 Bad Request in 103833ms (Views: 0.6ms | ActiveRecord: 5.7ms | Allocations: 25490)
+
+
+Started POST "/sessions" for 127.0.0.1 at 2022-06-18 20:50:44 +0500
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by SessionsController#create as */*
+  Parameters: {"login_data"=>{"email"=>"old@gmail.com", "password"=>"[FILTERED]"}, "session"=>{"login_data"=>{"email"=>"old@gmail.com", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "old@gmail.com"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:6:in `create'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "old@gmail.com"], ["LIMIT", 1]]
+  ↳ (pry):4:in `password_right?'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "old@gmail.com"], ["LIMIT", 1]]
+  ↳ (pry):5:in `password_right?'
+  [1m[36mCACHE User Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "old@gmail.com"], ["LIMIT", 1]]
+  ↳ (pry):6:in `password_right?'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "old@gmail.com"], ["LIMIT", 1]]
+  ↳ (pry):7:in `password_right?'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "old@gmail.com"], ["LIMIT", 1]]
+  ↳ (pry):8:in `password_right?'
+Completed 400 Bad Request in 768168ms (Views: 0.9ms | ActiveRecord: 7.1ms | Allocations: 80256)
+
+
+Started POST "/sessions" for 127.0.0.1 at 2022-06-18 21:04:28 +0500
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by SessionsController#create as */*
+  Parameters: {"login_data"=>{"email"=>"old@gmail.com", "password"=>"[FILTERED]"}, "session"=>{"login_data"=>{"email"=>"old@gmail.com", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "old@gmail.com"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:3:in `create'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/services/tokens_creator.rb:13:in `call'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/services/tokens_creator.rb:13:in `call'
+  [1m[36mToken Create (0.6ms)[0m  [1m[32mINSERT INTO "tokens" ("user_id", "token", "expired_in", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["user_id", 1], ["token", "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6Im9sZEBnbWFpbC5jb20iLCJzYWx0IjoiYUEyYVpBYXpaYSIsImV4cGlyZWRfaW4iOiIyMDIyLTA2LTE4IDE2OjI0OjI4IFVUQyJ9.3gOjpKkL5A5vJuTb_JFm-eY_sNa8K9OQOTFStqAKb6M"], ["expired_in", "2022-06-18 16:24:28.397841"], ["created_at", "2022-06-18 16:04:28.412766"], ["updated_at", "2022-06-18 16:04:28.412766"]]
+  ↳ app/services/tokens_creator.rb:13:in `call'
+  [1m[36mTRANSACTION (34.0ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/services/tokens_creator.rb:13:in `call'
+Completed 201 Created in 323ms (Views: 0.3ms | ActiveRecord: 41.6ms | Allocations: 17343)
+
+
+Started GET "/users/1" for 127.0.0.1 at 2022-06-18 21:04:41 +0500
+Processing by UsersController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (1.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:43:in `set_user'
+  [1m[36mToken Load (0.5ms)[0m  [1m[34mSELECT "tokens".* FROM "tokens" WHERE "tokens"."token" = $1 LIMIT $2[0m  [["token", "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6Im9sZEBnbWFpbC5jb20iLCJzYWx0IjoiYUEyYVpBYXpaYSIsImV4cGlyZWRfaW4iOiIyMDIyLTA2LTE4IDE2OjI0OjI4IFVUQyJ9.3gOjpKkL5A5vJuTb_JFm-eY_sNa8K9OQOTFStqAKb6M"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/access_handler.rb:39:in `token_valid?'
+  [1m[36mUser Load (3.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/access_handler.rb:29:in `verify_information'
+Completed 200 OK in 11ms (Views: 0.4ms | ActiveRecord: 5.5ms | Allocations: 2470)
+
+
+Started GET "/items/2" for 127.0.0.1 at 2022-06-18 21:07:45 +0500
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ItemsController#show as */*
+  Parameters: {"id"=>"2"}
+  [1m[36mItem Load (38.0ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/items_controller.rb:57:in `set_item'
+Completed 200 OK in 65ms (Views: 0.4ms | ActiveRecord: 40.4ms | Allocations: 7998)
+
+
+Started PATCH "/items/2" for 127.0.0.1 at 2022-06-18 21:07:52 +0500
+Processing by ItemsController#update as */*
+  Parameters: {"name"=>"t_short", "description"=>"new_t_short_nike", "id"=>"2", "item"=>{"name"=>"t_short", "description"=>"new_t_short_nike"}}
+  [1m[36mItem Load (0.3ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/items_controller.rb:57:in `set_item'
+Filter chain halted as :authenticate! rendered or redirected
+Completed 401 Unauthorized in 2ms (Views: 0.1ms | ActiveRecord: 0.3ms | Allocations: 661)
+
+
+Started PATCH "/items/2" for 127.0.0.1 at 2022-06-18 21:08:15 +0500
+Processing by ItemsController#update as */*
+  Parameters: {"name"=>"t_short", "description"=>"new_t_short_nike", "id"=>"2", "item"=>{"name"=>"t_short", "description"=>"new_t_short_nike"}}
+  [1m[36mItem Load (0.2ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/items_controller.rb:57:in `set_item'
+  [1m[36mToken Load (0.5ms)[0m  [1m[34mSELECT "tokens".* FROM "tokens" WHERE "tokens"."token" = $1 LIMIT $2[0m  [["token", "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6Im9sZEBnbWFpbC5jb20iLCJzYWx0IjoiYUEyYVpBYXpaYSIsImV4cGlyZWRfaW4iOiIyMDIyLTA2LTE4IDE2OjI0OjI4IFVUQyJ9.3gOjpKkL5A5vJuTb_JFm-eY_sNa8K9OQOTFStqAKb6M"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/access_handler.rb:39:in `token_valid?'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/access_handler.rb:29:in `verify_information'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/items_controller.rb:35:in `update'
+  [1m[36mItem Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "items" WHERE "items"."name" = $1 AND "items"."id" != $2 LIMIT $3[0m  [["name", "t_short"], ["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/items_controller.rb:35:in `update'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/items_controller.rb:35:in `update'
+Completed 200 OK in 38ms (Views: 0.4ms | ActiveRecord: 7.1ms | Allocations: 14425)
+
+

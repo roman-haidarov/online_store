@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :request do
+  let!(:user) { create :user }
+  let!(:token) { TokensCreator.new(user).call }
+
   describe "POST /create" do
     before do
       post "/users", { user: { email: "test@mail.ru", password: "123456" } }
@@ -20,11 +23,9 @@ RSpec.describe UsersController, type: :request do
   end
 
   context "user is created" do
-    let(:user) { create :user }
-
     describe "GET /show" do
       before do
-        get "/users/#{user.id}"
+        get "/users/#{user.id}", {}, "HTTP_AUTHORIZATION" => "Bearer #{token}"
       end
 
       it "status ok" do
@@ -38,7 +39,9 @@ RSpec.describe UsersController, type: :request do
 
     describe "PATCH /update" do
       before do
-        patch "/users/#{user.id}", { user: { email: "test@mail.ru", password: "123456" } }
+        patch "/users/#{user.id}",
+          { user: { email: "test@mail.ru", password: "123456" } },
+          "HTTP_AUTHORIZATION" => "Bearer #{token}"
       end
 
       it "status ok" do
@@ -52,7 +55,7 @@ RSpec.describe UsersController, type: :request do
 
     describe "DELETE /destroy" do
       it "user delete" do
-        delete "/users/#{user.id}"
+        delete "/users/#{user.id}", {}, "HTTP_AUTHORIZATION" => "Bearer #{token}"
 
         expect(last_response.status).to eq 204
       end

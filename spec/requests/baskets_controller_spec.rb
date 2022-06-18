@@ -1,16 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe BasketsController, type: :request do
+  let!(:user) { create :user }
+  let!(:basket) { create :basket, user: user }
+  let!(:token) { TokensCreator.new(user).call }
+
   describe "GET /show" do
-    let!(:user) { create :user }
-    let!(:basket) { create :basket, user: user }
     let!(:items) { create_list :item, 2 }
 
     before do
       create :basket_item, basket: basket, item: items.first
       create :basket_item, basket: basket, item: items.second
 
-      get "/baskets/#{basket.id}"
+      get "/baskets/#{basket.id}", {}, "HTTP_AUTHORIZATION" => "Bearer #{token}"
     end
 
     it "return status ok" do
@@ -23,8 +25,6 @@ RSpec.describe BasketsController, type: :request do
   end
 
   describe "POST /create" do
-    let!(:user) { create :user }
-    let!(:basket) { create :basket, user: user }
     let!(:items) { create_list :item, 2 }
     let!(:item) { create :item }
 
@@ -35,7 +35,9 @@ RSpec.describe BasketsController, type: :request do
     end
 
     it "return status ok" do
-      post "/baskets/#{basket.id}/create_order", { item_ids: [items.first.id, items.second.id] }
+      post "/baskets/#{basket.id}/create_order",
+        { item_ids: [items.first.id, items.second.id] },
+        "HTTP_AUTHORIZATION" => "Bearer #{token}"
 
       expect(last_response.status).to eq 201
     end
@@ -43,7 +45,9 @@ RSpec.describe BasketsController, type: :request do
     it "return expected data" do
       expect(basket.items.count).to eq 3
 
-      post "/baskets/#{basket.id}/create_order", { item_ids: [items.first.id, items.second.id] }
+      post "/baskets/#{basket.id}/create_order",
+        { item_ids: [items.first.id, items.second.id] },
+        "HTTP_AUTHORIZATION" => "Bearer #{token}"
       
       expect(basket.reload.items).to eq [item]
       expect(json['order_items'].pluck('id')).to eq items.pluck(:id)
@@ -51,14 +55,13 @@ RSpec.describe BasketsController, type: :request do
   end
 
   describe "DELETE /delete_from_basket" do
-    let!(:user) { create :user }
-    let!(:basket) { create :basket, user: user }
     let!(:item) { create :item }
     let!(:basket_item) { create :basket_item, basket: basket, item: item }
 
-
     before do
-      delete "/baskets/#{basket.id}/delete_from_basket", { item_ids: [item.id] }
+      delete "/baskets/#{basket.id}/delete_from_basket",
+        { item_ids: [item.id] },
+        "HTTP_AUTHORIZATION" => "Bearer #{token}"
     end
 
     it "return status no content" do

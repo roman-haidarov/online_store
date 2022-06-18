@@ -7,6 +7,7 @@ gem 'rails', '~> 6.1.4'
 gem 'pg'
 gem 'devise'
 gem 'jwt'
+gem 'whenever', require: false
 
 gem 'puma', '~> 3.11'
 gem 'sass-rails', '~> 5.0'

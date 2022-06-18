@@ -9,9 +9,6 @@ class TokensCreator
   end
 
   def call
-    
-    binding.pry
-    
     encodet_token = JWT.encode @payload, nil, 'HS256'
     token = Token.create(
       user_id: @payload[:user_id],

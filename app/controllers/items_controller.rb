@@ -1,5 +1,10 @@
 class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :update, :destroy, :add_to_basket]
+  before_action :authenticate!, except: [:index, :show]
+
+  def index
+    render json: Item.all, status: 200
+  end
 
   def show
     render json: @item, status: 200
@@ -16,9 +21,8 @@ class ItemsController < ApplicationController
   end
 
   def add_to_basket
-    current_user = User.find(params[:user_id])
-    basket_item = BasketItem.new(basket: current_user.basket, item: @item)
-    
+    basket_item = BasketItem.new(basket: @current_user.basket, item: @item)
+
     if basket_item.save
       render json: { message: "item added to basekt" }, status: 201
     else
