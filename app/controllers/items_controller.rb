@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :update, :destroy, :add_to_basket]
   before_action :authenticate!, except: [:index, :show]
+  before_action :authorize, only: [:create, :update, :destroy]
 
   def index
     render json: Item.all, status: 200
@@ -54,5 +55,9 @@ class ItemsController < ApplicationController
 
   def set_item
     @item = Item.find(params[:id])
+  end
+
+  def authorize
+    authorize(nil, policy_class: ItemPolicy)
   end
 end

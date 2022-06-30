@@ -1,6 +1,6 @@
 class BasketsController < ApplicationController
-  before_action :set_basket, only: [:show, :create_order, :delete_from_basket]
   before_action :authenticate!
+  before_action :set_basket, only: [:show, :create_order, :delete_from_basket]
 
   def show
     render json: @basket.items, status: 200
@@ -15,6 +15,7 @@ class BasketsController < ApplicationController
       basket_items = BasketItem.where(basket: @basket, item_id: params[:item_ids])
       basket_items.destroy_all
       order.items << items
+      current_user.orders << order
       
       render json: { order: order, order_items: order.items }, status: 201
     else
@@ -33,5 +34,7 @@ class BasketsController < ApplicationController
 
   def set_basket
     @basket = Basket.find(params[:id])
+
+    authorize @basket
   end
 end

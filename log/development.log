@@ -3695,3 +3695,210 @@ Processing by ItemsController#update as */*
 Completed 200 OK in 38ms (Views: 0.4ms | ActiveRecord: 7.1ms | Allocations: 14425)
 
 
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT pg_try_advisory_lock(7535100202440897450)[0m
+  [1m[35m (43.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to AddColumnToUsers (20220630180111)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (67.2ms)[0m  [1m[35mALTER TABLE "users" ADD "admin" boolean DEFAULT FALSE[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20220630180111"]]
+  [1m[36mTRANSACTION (11.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (33.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT pg_advisory_unlock(7535100202440897450)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started POST "/users" for 127.0.0.1 at 2022-06-30 23:06:26 +0500
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by UsersController#create as */*
+  Parameters: {"user"=>{"email"=>"old@gmail.com", "password"=>"[FILTERED]"}}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mUser Exists? (40.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "old@gmail.com"], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/users_controller.rb:12:in `create'
+Completed 400 Bad Request in 451ms (Views: 0.8ms | ActiveRecord: 68.9ms | Allocations: 9255)
+
+
+Started POST "/users" for 127.0.0.1 at 2022-06-30 23:07:11 +0500
+Processing by UsersController#create as */*
+  Parameters: {"user"=>{"email"=>"old1@gmail.com", "password"=>"[FILTERED]"}}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "old1@gmail.com"], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mUser Create (58.6ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["email", "old1@gmail.com"], ["encrypted_password", "$2a$12$VABy0ZC83ucNtp9o60gV0e7U19GmkwAgQwoIlmJG5WOdtFp4IagZS"], ["created_at", "2022-06-30 18:07:12.174439"], ["updated_at", "2022-06-30 18:07:12.174439"]]
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mTRANSACTION (15.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:13:in `create'
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `create'
+  [1m[36mBasket Create (19.7ms)[0m  [1m[32mINSERT INTO "baskets" ("created_at", "updated_at", "user_id") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", "2022-06-30 18:07:12.312495"], ["updated_at", "2022-06-30 18:07:12.312495"], ["user_id", 2]]
+  ↳ app/controllers/users_controller.rb:13:in `create'
+  [1m[36mTRANSACTION (15.7ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/users_controller.rb:13:in `create'
+Completed 201 Created in 440ms (Views: 0.3ms | ActiveRecord: 113.3ms | Allocations: 13166)
+
+
+Started POST "/users" for 127.0.0.1 at 2022-06-30 23:07:29 +0500
+Processing by UsersController#create as */*
+  Parameters: {"user"=>{"email"=>"old2@gmail.com", "password"=>"[FILTERED]"}}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "old2@gmail.com"], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["email", "old2@gmail.com"], ["encrypted_password", "$2a$12$HvI4/ug6RL5HchQ4pF1DdeibaOGrQ6d3C2mNxFvYpn2npQrHpPyCe"], ["created_at", "2022-06-30 18:07:29.445205"], ["updated_at", "2022-06-30 18:07:29.445205"]]
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mTRANSACTION (11.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:13:in `create'
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `create'
+  [1m[36mBasket Create (0.4ms)[0m  [1m[32mINSERT INTO "baskets" ("created_at", "updated_at", "user_id") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", "2022-06-30 18:07:29.462775"], ["updated_at", "2022-06-30 18:07:29.462775"], ["user_id", 3]]
+  ↳ app/controllers/users_controller.rb:13:in `create'
+  [1m[36mTRANSACTION (4.4ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/users_controller.rb:13:in `create'
+Completed 201 Created in 275ms (Views: 0.3ms | ActiveRecord: 17.5ms | Allocations: 5425)
+
+
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Update (0.6ms)[0m  [1m[33mUPDATE "users" SET "updated_at" = $1, "admin" = $2 WHERE "users"."id" = $3[0m  [["updated_at", "2022-06-30 18:08:38.231116"], ["admin", true], ["id", 3]]
+  [1m[36mTRANSACTION (8.6ms)[0m  [1m[35mCOMMIT[0m
+Started POST "/sessions" for 127.0.0.1 at 2022-06-30 23:10:28 +0500
+Processing by SessionsController#create as */*
+  Parameters: {"login_data"=>{"email"=>"old2@gmail.com", "password"=>"[FILTERED]"}, "session"=>{"login_data"=>{"email"=>"old2@gmail.com", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "old2@gmail.com"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:3:in `create'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/services/tokens_creator.rb:13:in `call'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  ↳ app/services/tokens_creator.rb:13:in `call'
+  [1m[36mToken Create (64.8ms)[0m  [1m[32mINSERT INTO "tokens" ("user_id", "token", "expired_in", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["user_id", 3], ["token", "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJlbWFpbCI6Im9sZDJAZ21haWwuY29tIiwic2FsdCI6IkFhQTJ6MjEyMTIiLCJleHBpcmVkX2luIjoiMjAyMi0wNi0zMCAxODozMDoyOCBVVEMifQ.KwzHR-Ia4r9v84IhC9NBlun8UQqeZO1Plc8ovZGhmSk"], ["expired_in", "2022-06-30 18:30:28.664526"], ["created_at", "2022-06-30 18:10:28.684622"], ["updated_at", "2022-06-30 18:10:28.684622"]]
+  ↳ app/services/tokens_creator.rb:13:in `call'
+  [1m[36mTRANSACTION (30.4ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/services/tokens_creator.rb:13:in `call'
+Completed 201 Created in 418ms (Views: 0.5ms | ActiveRecord: 105.6ms | Allocations: 12518)
+
+
+Started PATCH "/users/1" for 127.0.0.1 at 2022-06-30 23:11:23 +0500
+Processing by UsersController#update as */*
+  Parameters: {"user"=>{"email"=>"bugaga@gmail.com", "password"=>"[FILTERED]"}, "id"=>"1"}
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:45:in `set_user'
+  [1m[36mToken Load (0.3ms)[0m  [1m[34mSELECT "tokens".* FROM "tokens" WHERE "tokens"."token" = $1 LIMIT $2[0m  [["token", "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJlbWFpbCI6Im9sZDJAZ21haWwuY29tIiwic2FsdCI6IkFhQTJ6MjEyMTIiLCJleHBpcmVkX2luIjoiMjAyMi0wNi0zMCAxODozMDoyOCBVVEMifQ.KwzHR-Ia4r9v84IhC9NBlun8UQqeZO1Plc8ovZGhmSk"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/access_handler.rb:38:in `token_valid?'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/access_handler.rb:28:in `verify_information'
+Completed 500 Internal Server Error in 16ms (ActiveRecord: 1.8ms | Allocations: 4810)
+
+
+  
+NameError (undefined local variable or method `current_user' for #<UsersController:0x0000000000c120>
+Did you mean?  @current_user):
+  
+app/controllers/users_controller.rb:21:in `update'
+Started PATCH "/users/1" for 127.0.0.1 at 2022-06-30 23:12:22 +0500
+Processing by UsersController#update as */*
+  Parameters: {"user"=>{"email"=>"bugaga@gmail.com", "password"=>"[FILTERED]"}, "id"=>"1"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:48:in `set_user'
+  [1m[36mToken Load (0.8ms)[0m  [1m[34mSELECT "tokens".* FROM "tokens" WHERE "tokens"."token" = $1 LIMIT $2[0m  [["token", "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJlbWFpbCI6Im9sZDJAZ21haWwuY29tIiwic2FsdCI6IkFhQTJ6MjEyMTIiLCJleHBpcmVkX2luIjoiMjAyMi0wNi0zMCAxODozMDoyOCBVVEMifQ.KwzHR-Ia4r9v84IhC9NBlun8UQqeZO1Plc8ovZGhmSk"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/access_handler.rb:38:in `token_valid?'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/access_handler.rb:28:in `verify_information'
+Completed 500 Internal Server Error in 52058ms (ActiveRecord: 6.3ms | Allocations: 36270)
+
+
+  
+NameError (undefined local variable or method `current_user' for #<UsersController:0x0000000000e128>
+Did you mean?  @current_user):
+  
+app/controllers/users_controller.rb:24:in `update'
+Started PATCH "/users/1" for 127.0.0.1 at 2022-06-30 23:13:19 +0500
+Processing by UsersController#update as */*
+  Parameters: {"user"=>{"email"=>"bugaga@gmail.com", "password"=>"[FILTERED]"}, "id"=>"1"}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:48:in `set_user'
+  [1m[36mToken Load (0.3ms)[0m  [1m[34mSELECT "tokens".* FROM "tokens" WHERE "tokens"."token" = $1 LIMIT $2[0m  [["token", "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJlbWFpbCI6Im9sZDJAZ21haWwuY29tIiwic2FsdCI6IkFhQTJ6MjEyMTIiLCJleHBpcmVkX2luIjoiMjAyMi0wNi0zMCAxODozMDoyOCBVVEMifQ.KwzHR-Ia4r9v84IhC9NBlun8UQqeZO1Plc8ovZGhmSk"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/access_handler.rb:38:in `token_valid?'
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/access_handler.rb:28:in `verify_information'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:26:in `update'
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "bugaga@gmail.com"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:26:in `update'
+  [1m[36mUser Update (0.4ms)[0m  [1m[33mUPDATE "users" SET "email" = $1, "encrypted_password" = $2, "updated_at" = $3 WHERE "users"."id" = $4[0m  [["email", "bugaga@gmail.com"], ["encrypted_password", "$2a$12$3a5234IRCyFVUSoJUkA/YeqxceCm/kWm9c2RNjGabkNlChQHCRgEu"], ["updated_at", "2022-06-30 18:13:25.621507"], ["id", 1]]
+  ↳ app/controllers/users_controller.rb:26:in `update'
+  [1m[36mTRANSACTION (10.5ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/users_controller.rb:26:in `update'
+Completed 200 OK in 6461ms (Views: 0.4ms | ActiveRecord: 20.8ms | Allocations: 17778)
+
+
+Started PATCH "/users/1" for 127.0.0.1 at 2022-06-30 23:14:08 +0500
+Processing by UsersController#update as */*
+  Parameters: {"user"=>{"email"=>"app@gmail.com", "password"=>"[FILTERED]"}, "id"=>"1"}
+  [1m[36mUser Load (1.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:45:in `set_user'
+  [1m[36mToken Load (0.4ms)[0m  [1m[34mSELECT "tokens".* FROM "tokens" WHERE "tokens"."token" = $1 LIMIT $2[0m  [["token", "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJlbWFpbCI6Im9sZDJAZ21haWwuY29tIiwic2FsdCI6IkFhQTJ6MjEyMTIiLCJleHBpcmVkX2luIjoiMjAyMi0wNi0zMCAxODozMDoyOCBVVEMifQ.KwzHR-Ia4r9v84IhC9NBlun8UQqeZO1Plc8ovZGhmSk"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/access_handler.rb:38:in `token_valid?'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/access_handler.rb:28:in `verify_information'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:23:in `update'
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "app@gmail.com"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:23:in `update'
+  [1m[36mUser Update (0.8ms)[0m  [1m[33mUPDATE "users" SET "email" = $1, "encrypted_password" = $2, "updated_at" = $3 WHERE "users"."id" = $4[0m  [["email", "app@gmail.com"], ["encrypted_password", "$2a$12$RZXsBv2vI28M6i58CCdLnuWcHBInrua4FIdetLWVKiixktMc.tv16"], ["updated_at", "2022-06-30 18:14:43.421803"], ["id", 1]]
+  ↳ app/controllers/users_controller.rb:23:in `update'
+  [1m[36mTRANSACTION (12.4ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/users_controller.rb:23:in `update'
+Completed 200 OK in 34989ms (Views: 0.4ms | ActiveRecord: 24.5ms | Allocations: 18396)
+
+
+Started POST "/sessions" for 127.0.0.1 at 2022-06-30 23:15:27 +0500
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by SessionsController#create as */*
+  Parameters: {"login_data"=>{"email"=>"old1@gmail.com", "password"=>"[FILTERED]"}, "session"=>{"login_data"=>{"email"=>"old1@gmail.com", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "old1@gmail.com"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:3:in `create'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/services/tokens_creator.rb:13:in `call'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/services/tokens_creator.rb:13:in `call'
+  [1m[36mToken Create (1.7ms)[0m  [1m[32mINSERT INTO "tokens" ("user_id", "token", "expired_in", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["user_id", 2], ["token", "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im9sZDFAZ21haWwuY29tIiwic2FsdCI6IjF6ejJhWjIxWnoiLCJleHBpcmVkX2luIjoiMjAyMi0wNi0zMCAxODozNToyOCBVVEMifQ._ygoIBiMbMZ06PUaUSoYsRmQ18OSWJEdnZS9EcC_uxY"], ["expired_in", "2022-06-30 18:35:28.350492"], ["created_at", "2022-06-30 18:15:28.363982"], ["updated_at", "2022-06-30 18:15:28.363982"]]
+  ↳ app/services/tokens_creator.rb:13:in `call'
+  [1m[36mTRANSACTION (19.0ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/services/tokens_creator.rb:13:in `call'
+Completed 201 Created in 320ms (Views: 0.2ms | ActiveRecord: 30.0ms | Allocations: 17763)
+
+
+Started PATCH "/users/1" for 127.0.0.1 at 2022-06-30 23:15:54 +0500
+Processing by UsersController#update as */*
+  Parameters: {"user"=>{"email"=>"app111@gmail.com", "password"=>"[FILTERED]"}, "id"=>"1"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:45:in `set_user'
+  [1m[36mToken Load (0.4ms)[0m  [1m[34mSELECT "tokens".* FROM "tokens" WHERE "tokens"."token" = $1 LIMIT $2[0m  [["token", "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im9sZDFAZ21haWwuY29tIiwic2FsdCI6IjF6ejJhWjIxWnoiLCJleHBpcmVkX2luIjoiMjAyMi0wNi0zMCAxODozNToyOCBVVEMifQ._ygoIBiMbMZ06PUaUSoYsRmQ18OSWJEdnZS9EcC_uxY"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/access_handler.rb:38:in `token_valid?'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/access_handler.rb:28:in `verify_information'
+Completed 500 Internal Server Error in 18053ms (ActiveRecord: 1.0ms | Allocations: 13859)
+
+
+  
+Pundit::NotAuthorizedError (not allowed to update? this User):
+  
+app/controllers/users_controller.rb:21:in `update'
+Started PATCH "/users/1" for 127.0.0.1 at 2022-06-30 23:18:25 +0500
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by UsersController#update as */*
+  Parameters: {"user"=>{"email"=>"app111@gmail.com", "password"=>"[FILTERED]"}, "id"=>"1"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:45:in `set_user'
+  [1m[36mToken Load (0.5ms)[0m  [1m[34mSELECT "tokens".* FROM "tokens" WHERE "tokens"."token" = $1 LIMIT $2[0m  [["token", "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6Im9sZDFAZ21haWwuY29tIiwic2FsdCI6IjF6ejJhWjIxWnoiLCJleHBpcmVkX2luIjoiMjAyMi0wNi0zMCAxODozNToyOCBVVEMifQ._ygoIBiMbMZ06PUaUSoYsRmQ18OSWJEdnZS9EcC_uxY"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/access_handler.rb:38:in `token_valid?'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/access_handler.rb:28:in `verify_information'
+Completed 403 Forbidden in 2080ms (Views: 0.6ms | ActiveRecord: 8.8ms | Allocations: 17360)
+
+
