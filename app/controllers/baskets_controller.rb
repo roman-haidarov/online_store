@@ -8,14 +8,12 @@ class BasketsController < ApplicationController
 
   def create_order
     items = Item.where(id: params[:item_ids])
-    order = Order.new
 
-    if items && order.valid?
-      order.save
+    if items
       basket_items = BasketItem.where(basket: @basket, item_id: params[:item_ids])
       basket_items.destroy_all
+      order = current_user.orders.create
       order.items << items
-      current_user.orders << order
       
       render json: { order: order, order_items: order.items }, status: 201
     else

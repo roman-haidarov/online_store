@@ -6,38 +6,56 @@ RSpec.describe ItemsController, type: :request do
   let!(:token) { TokensCreator.new(user).call }
 
   describe "POST /create" do
-    context "when params is valid" do
-      before do
-        post "/items",
-          { item: { name: "t_short", description: "very nice t short" } },
-          "HTTP_AUTHORIZATION" => "Bearer #{token}"
+    context "when user is admin" do
+      let!(:user) { create :user, admin: true }
+
+      context "when params is valid" do
+        before do
+          post "/items",
+            { item: { name: "t_short", description: "very nice t short" } },
+            "HTTP_AUTHORIZATION" => "Bearer #{token}"
+        end
+  
+        it "status created" do
+          expect(last_response.status).to eq 201
+        end
+  
+        it "expected name" do
+          expect(json['name']).to eq "t_short"
+        end
+  
+        it "expected description" do
+          expect(json['description']).to eq "very nice t short"
+        end
       end
 
-      it "status created" do
-        expect(last_response.status).to eq 201
-      end
-
-      it "expected name" do
-        expect(json['name']).to eq "t_short"
-      end
-
-      it "expected description" do
-        expect(json['description']).to eq "very nice t short"
+      context "when params invalid" do
+        before do
+          post "/items",
+            { item: { name: "t_short" } }, "HTTP_AUTHORIZATION" => "Bearer #{token}"
+        end
+  
+        it "status bad request" do
+          expect(last_response.status).to eq 400
+        end
+  
+        it "return error message" do
+          expect(json['errors']).to eq ["Description can't be blank"]
+        end
       end
     end
 
-    context "when params invalid" do
-      before do
-        post "/items",
-          { item: { name: "t_short" } }, "HTTP_AUTHORIZATION" => "Bearer #{token}"
-      end
-
-      it "status bad request" do
-        expect(last_response.status).to eq 400
-      end
-
-      it "return error message" do
-        expect(json['errors']).to eq ["Description can't be blank"]
+    context "when user is not admin" do
+      context "when params is valid" do
+        before do
+          post "/items",
+            { item: { name: "t_short", description: "very nice t short" } },
+            "HTTP_AUTHORIZATION" => "Bearer #{token}"
+        end
+  
+        it "status created" do
+          expect(last_response.status).to eq 403
+        end
       end
     end
   end
@@ -114,30 +132,59 @@ RSpec.describe ItemsController, type: :request do
     end
 
     describe "PATCH /update" do
-      before do
-        patch "/items/#{item.id}",
-          { item: { name: "t_short", description: "very nice t short" } },
-          "HTTP_AUTHORIZATION" => "Bearer #{token}"
+      context "when user is admin" do
+        let!(:user) { create :user, admin: true }
+
+        before do
+          patch "/items/#{item.id}",
+            { item: { name: "t_short", description: "very nice t short" } },
+            "HTTP_AUTHORIZATION" => "Bearer #{token}"
+        end
+
+        it "status ok" do
+          expect(last_response.status).to eq 200
+        end
+
+        it "name is write" do
+          expect(json['name']).to eq "t_short"
+        end
+
+        it "description is write" do
+          expect(json['description']).to eq "very nice t short"
+        end
       end
 
-      it "status ok" do
-        expect(last_response.status).to eq 200
+      context "when user is not admin" do
+        before do
+          patch "/items/#{item.id}",
+            { item: { name: "t_short", description: "very nice t short" } },
+            "HTTP_AUTHORIZATION" => "Bearer #{token}"
+        end
+  
+        it "status ok" do
+          expect(last_response.status).to eq 403
+        end
       end
 
-      it "name is write" do
-        expect(json['name']).to eq "t_short"
-      end
-
-      it "description is write" do
-        expect(json['description']).to eq "very nice t short"
-      end
     end
 
     describe "DELETE /destroy" do
-      it "user delete" do
-        delete "/items/#{item.id}", {}, "HTTP_AUTHORIZATION" => "Bearer #{token}"
+      context "when user is admin" do
+        let!(:user) { create :user, admin: true }
 
-        expect(last_response.status).to eq 204
+        it "user delete" do
+          delete "/items/#{item.id}", {}, "HTTP_AUTHORIZATION" => "Bearer #{token}"
+  
+          expect(last_response.status).to eq 204
+        end
+      end
+
+      context "when user is not admin" do
+        it "user delete" do
+          delete "/items/#{item.id}", {}, "HTTP_AUTHORIZATION" => "Bearer #{token}"
+  
+          expect(last_response.status).to eq 403
+        end
       end
     end
   end

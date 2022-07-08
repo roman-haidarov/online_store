@@ -10,7 +10,7 @@ class ApplicationPolicy
 
   private
 
-  def admin?
+  def admin?  
     user.admin?
   end
 
@@ -25,6 +25,10 @@ class ApplicationPolicy
     end
 
     private
+
+    def admin?
+      user.admin?
+    end
 
     attr_reader :user, :scope
   end

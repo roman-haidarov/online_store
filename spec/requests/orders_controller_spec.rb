@@ -5,13 +5,13 @@ RSpec.describe OrdersController, type: :request do
   let!(:token) { TokensCreator.new(user).call }
 
   describe "GET /index" do
-    let!(:orders) { create_list :order, 3 }
+    let!(:orders) { create_list :order, 3, user: user  }
 
     before do
-      get "/orders", {}, "HTTP_AUTHORIZATION" => "Bearer #{token}"
+      get "/orders", { user_id: user.id }, "HTTP_AUTHORIZATION" => "Bearer #{token}"
     end
 
-    it "return status ok" do
+    it "return status ok" do 
       expect(last_response.status).to eq 200
     end
 
@@ -21,14 +21,29 @@ RSpec.describe OrdersController, type: :request do
   end
 
   describe "DELETE /destroy" do
-    let!(:order) { create :order }
+    context "when user is admin" do
+      let!(:user) { create :user, admin: true }
+      let!(:order) { create :order }
 
-    before do
-      delete "/orders/#{order.id}", {}, "HTTP_AUTHORIZATION" => "Bearer #{token}"
+      before do
+        delete "/orders/#{order.id}", {}, "HTTP_AUTHORIZATION" => "Bearer #{token}"
+      end
+
+      it "return status no content" do
+        expect(last_response.status).to eq 204
+      end
     end
 
-    it "return status no content" do
-      expect(last_response.status).to eq 204
+    context "when user is not admin" do
+      let!(:order) { create :order }
+
+      before do
+        delete "/orders/#{order.id}", {}, "HTTP_AUTHORIZATION" => "Bearer #{token}"
+      end
+
+      it "return status no content" do
+        expect(last_response.status).to eq 403
+      end
     end
   end
 end

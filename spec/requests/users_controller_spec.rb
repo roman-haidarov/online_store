@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :request do
   let!(:user) { create :user }
+  let!(:basket) { create :basket, user: user }
   let!(:token) { TokensCreator.new(user).call }
 
   describe "POST /create" do
@@ -54,10 +55,22 @@ RSpec.describe UsersController, type: :request do
     end
 
     describe "DELETE /destroy" do
-      it "user delete" do
-        delete "/users/#{user.id}", {}, "HTTP_AUTHORIZATION" => "Bearer #{token}"
+      context "when user is admin" do
+        let!(:user) { create :user, admin: true}
 
-        expect(last_response.status).to eq 204
+        it "user delete" do
+          delete "/users/#{user.id}", {}, "HTTP_AUTHORIZATION" => "Bearer #{token}"
+
+          expect(last_response.status).to eq 204
+        end
+      end
+
+      context "when user is not admin" do
+        it "user not deleted" do
+          delete "/users/#{user.id}", {}, "HTTP_AUTHORIZATION" => "Bearer #{token}"
+
+          expect(last_response.status).to eq 403
+        end
       end
     end
   end

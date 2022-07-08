@@ -14,6 +14,6 @@ class UserPolicy < ApplicationPolicy
   private
 
   def admin_or_owner
-    admin? || record.user == user
+    admin? || record == user
   end
 end

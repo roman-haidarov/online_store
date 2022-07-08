@@ -3,9 +3,9 @@ class OrdersController < ApplicationController
 
   def index
     user_orders = Order.where(user_id: params[:user_id])
-    authorize user_orders
+    data = policy_scope(user_orders)
 
-    render json: user_orders, status: 200
+    render json: data, status: 200
   end
 
   def destroy
